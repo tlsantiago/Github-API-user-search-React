@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react'; // Imported useEffect, wich will monitor variable changes and call a function when it happens. Kinda like eventListener;
 import * as S from './styled';
+import  { useHistory } from 'react-router-dom';
 
 export default function Repositories() {
+    const history = useHistory();
     var [repositories, setRepositories] = useState([]);
-
     useEffect(() => {
         let repositoriesName = localStorage.getItem('repositoriesName'); // storing into "repositoriesName" variable the content of "repotoriesName" saved into local storage;
-        repositoriesName = JSON.parse(repositoriesName); // turning this info into object again, for this data is a string in localStorage;
-        setRepositories(repositoriesName); // function called;
-        localStorage.clear();
+        if (repositoriesName != null) {
+            repositoriesName = JSON.parse(repositoriesName); // turning this info into object again, for this data is a string in localStorage;
+            setRepositories(repositoriesName); // function called;
+            localStorage.clear();
+        } else {
+            history.push('/');
+
+        }
     }, []); // Leaving variable empty, so the UseEffect will not monitor a single variable, but execute the function on page load instead.
     return (
         <S.Container>
